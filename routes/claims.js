@@ -186,6 +186,9 @@ async(req,res)=>{
         claim.status = status;
 
         await claim.save();
+        const owner = await User.findById(
+    req.session.userId
+);
 
         /* if approved */
         if(status === "approved"){
@@ -204,20 +207,32 @@ await Notification.create({
 
             await item.save();
 
-            /* reject other pending claims */
-            await Claim.updateMany({
+          /* reject other pending claims */
+const otherClaims = await Claim.find({
 
-                itemId:claim.itemId,
+    itemId:claim.itemId,
 
-                _id:{
-                    $ne:claim._id
-                }
+    _id:{
+        $ne:claim._id
+    },
 
-            },{
-                status:"rejected"
-            });
+    status:"pending"
+});
+
+for(const other of otherClaims){
+
+    other.status = "rejected";
+
+    await other.save();
+
+    await Notification.create({
+
+        userId:other.requesterId,
+
+        message:`❌ ${owner.name} rejected your claim for ${item.name}`
+    });
+}
         }
-
         /* if rejected */
         if(status === "rejected"){
            await Notification.create({
