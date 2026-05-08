@@ -32,6 +32,63 @@
 <div id="notes"></div>
 
 <script>
+    
+
+async function loadNotifications(){
+
+    try{
+
+        const res =
+            await fetch('/notifications');
+
+        const data =
+            await res.json();
+
+        if(data.length === 0){
+
+            notes.innerHTML = `
+                <h3>
+                    No notifications
+                </h3>
+            `;
+
+            return;
+        }
+
+        notes.innerHTML =
+            data.map(n => `
+
+            <div class="note">
+
+                <h3>
+                    ${n.message}
+                </h3>
+
+                <small>
+
+                    ${new Date(n.createdAt)
+                    .toLocaleString()}
+
+                </small>
+
+            </div>
+
+        `).join('');
+
+    }catch(err){
+
+        notes.innerHTML =
+            "<h3>Error loading notifications</h3>";
+    }
+}
+
+/* first load */
+loadNotifications();
+
+/* auto refresh every 5 sec */
+setInterval(loadNotifications,5000);
+
+
 
 async function loadNotifications(){
 

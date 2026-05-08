@@ -85,9 +85,9 @@
         Report and recover lost items securely inside campus.
     </p>
 
-    <button onclick="location='login.html'">
-        Get Started
-    </button>
+   <button onclick="startApp()">
+    Get Started
+</button>
 </div>
 
 <div class="features">
@@ -108,6 +108,31 @@
     </div>
 
 </div>
+<script>
+
+async function startApp(){
+
+    try{
+
+        const res =
+            await fetch('/auth/me');
+
+        if(res.ok){
+
+            location = 'dashboard';
+
+        }else{
+
+            location = 'login.html';
+        }
+
+    }catch(err){
+
+        location = 'login.html';
+    }
+}
+
+</script>
 
 </body>
 </html>

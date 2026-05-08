@@ -445,21 +445,90 @@ async function loadClaims(){
 
     const data = await res.json();
 
-    claims.innerHTML = data.map(c=>`
+    claims.innerHTML = data.map(c => `
 
-        <div class="card p-2 mb-2">
+        <div class="card p-3 mb-2">
 
-            Claim ID:
-            ${c._id}
+            <p>
+                <b>Claim ID:</b>
+                ${c._id}
+            </p>
 
-            <br>
+            <p>
+                <b>Status:</b>
 
-            Status:
-            <b>${c.status}</b>
+                <span class="badge bg-${
+                    c.status === "approved"
+                    ? "success"
+                    : c.status === "rejected"
+                    ? "danger"
+                    : "warning"
+                }">
+
+                    ${c.status}
+
+                </span>
+            </p>
+
+            ${
+                c.status === "pending"
+                ?
+                `
+                <button
+                class="btn btn-success btn-sm me-2"
+                onclick="updateClaim('${c._id}','approved')">
+
+                    Approve
+
+                </button>
+
+                <button
+                class="btn btn-danger btn-sm"
+                onclick="updateClaim('${c._id}','rejected')">
+
+                    Reject
+
+                </button>
+                `
+                :
+                `
+                <button
+                class="btn btn-secondary btn-sm"
+                disabled>
+
+                    Action Completed
+
+                </button>
+                `
+            }
 
         </div>
 
     `).join("");
+}
+
+/* UPDATE CLAIM */
+async function updateClaim(id,status){
+
+    const res = await fetch("/claims/" + id, {
+
+        method:"PUT",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+            status:status
+        })
+    });
+
+    const msg = await res.text();
+
+    showToast(msg);
+
+    loadClaims();
+    loadItems();
 }
 
 /* DELETE */

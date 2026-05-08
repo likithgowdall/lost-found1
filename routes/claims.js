@@ -5,6 +5,7 @@ const Claim = require("../models/Claim");
 const Item = require("../models/Item");
 const Notification =
 require("../models/Notification");
+const User = require("../models/User");
 
 /* =========================
    AUTH
@@ -70,12 +71,15 @@ async(req,res)=>{
         });
 
         await claim.save();
-        await Notification.create({
+       const requester = await User.findById(
+    req.session.userId
+);
+
+await Notification.create({
 
     userId:item.userId,
 
-    message:"📦 Someone requested your item: "
-        + item.name
+    message:`📦 ${requester.name} requested your item: ${item.name}`
 });
 
         /* increase claim count */
@@ -185,11 +189,15 @@ async(req,res)=>{
 
         /* if approved */
         if(status === "approved"){
-            await Notification.create({
+            const owner = await User.findById(
+    req.session.userId
+);
+
+await Notification.create({
 
     userId:claim.requesterId,
 
-    message:"✅ Your claim was approved"
+    message:`✅ ${owner.name} approved your claim for ${item.name}`
 });
 
             item.status = "claimed";
@@ -212,11 +220,11 @@ async(req,res)=>{
 
         /* if rejected */
         if(status === "rejected"){
-            await Notification.create({
+           await Notification.create({
 
     userId:claim.requesterId,
 
-    message:"❌ Your claim was rejected"
+    message:`❌ ${owner.name} rejected your claim for ${item.name}`
 });
 
             item.status = "available";

@@ -22,9 +22,18 @@ app.use("/uploads", express.static("uploads"));
 
 /* Session */
 app.use(session({
+
     secret: "secretkey",
+
     resave: false,
-    saveUninitialized: false
+
+    saveUninitialized: false,
+
+    cookie:{
+
+        maxAge: 1000 * 60 * 60 * 24
+        // 24 hours
+    }
 }));
 
 /* =========================
