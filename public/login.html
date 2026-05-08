@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lost & Found Login</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+        }
+
+        input {
+            width: 90%;
+            padding: 8px;
+            margin: 5px;
+        }
+
+        button {
+            padding: 8px;
+            margin: 5px;
+            width: 95%;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>Lost & Found Portal</h2>
+
+    <input id="name" placeholder="Name"><br>
+    <input id="username" placeholder="Username"><br>
+    <input id="password" type="password" placeholder="Password"><br>
+    <input id="contact" placeholder="Contact"><br>
+    <input id="department" placeholder="Department"><br>
+
+    <button onclick="register()">Register</button>
+    <button onclick="login()">Login</button>
+</div>
+
+<script>
+async function register() {
+    const nameVal = document.getElementById("name").value;
+    const usernameVal = document.getElementById("username").value;
+    const passwordVal = document.getElementById("password").value;
+    const contactVal = document.getElementById("contact").value;
+    const departmentVal = document.getElementById("department").value;
+
+    if (!nameVal) {
+        alert("Name is required");
+        return;
+    }
+
+    const res = await fetch("/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            name: nameVal,
+            username: usernameVal,
+            password: passwordVal,
+            contact: contactVal,
+            department: departmentVal
+        })
+    });
+
+    alert(await res.text());
+}
+
+async function login() {
+    const res = await fetch("/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            username: username.value,
+            password: password.value
+        })
+    });
+
+    const text = await res.text();
+    alert(text);
+
+    if (text.includes("Login Successful")) {
+    window.location = "dashboard.html";
+}
+}
+</script>
+
+</body>
+</html>

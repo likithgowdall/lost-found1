@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Campus Lost & Found</title>
+
+    <style>
+        body{
+            margin:0;
+            font-family:Arial;
+            background:#f4f6f9;
+        }
+
+        .navbar{
+            background:#667eea;
+            color:white;
+            padding:15px 30px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .navbar a{
+            color:white;
+            text-decoration:none;
+            margin-left:15px;
+        }
+
+        .hero{
+            height:85vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            text-align:center;
+            background:linear-gradient(to right,#667eea,#764ba2);
+            color:white;
+            flex-direction:column;
+        }
+
+        .hero h1{
+            font-size:50px;
+        }
+
+        .hero button{
+            padding:12px 20px;
+            border:none;
+            border-radius:5px;
+            cursor:pointer;
+            margin-top:20px;
+        }
+
+        .features{
+            padding:40px;
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:20px;
+        }
+
+        .card{
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 5px 15px rgba(0,0,0,.1);
+            text-align:center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <h2>📦 Lost & Found Portal</h2>
+
+    <div>
+        <a href="home.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html">Login</a>
+    </div>
+</div>
+
+<div class="hero">
+    <h1>Campus Lost & Found Portal</h1>
+
+    <p>
+        Report and recover lost items securely inside campus.
+    </p>
+
+    <button onclick="location='login.html'">
+        Get Started
+    </button>
+</div>
+
+<div class="features">
+
+    <div class="card">
+        <h3>🔍 Smart Search</h3>
+        <p>Search items easily using filters.</p>
+    </div>
+
+    <div class="card">
+        <h3>📸 Image Upload</h3>
+        <p>Upload item images for better identification.</p>
+    </div>
+
+    <div class="card">
+        <h3>🔔 Notifications</h3>
+        <p>Receive claim alerts instantly.</p>
+    </div>
+
+</div>
+
+</body>
+</html>
+
+

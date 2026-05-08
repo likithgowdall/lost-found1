@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Notifications</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f4f6f9;
+            padding:20px;
+        }
+
+        .note{
+            background:white;
+            padding:15px;
+            margin-bottom:15px;
+            border-radius:10px;
+            box-shadow:0 5px 15px rgba(0,0,0,.1);
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<h2>🔔 Notifications</h2>
+
+<div id="notes"></div>
+
+<script>
+
+async function loadNotifications(){
+
+    const res =
+        await fetch('/notifications');
+
+    const data =
+        await res.json();
+
+    if(data.length === 0){
+
+        notes.innerHTML =
+            "<h3>No notifications</h3>";
+
+        return;
+    }
+
+    notes.innerHTML =
+        data.map(n => `
+
+        <div class="note">
+
+            ${n.message}
+
+            <br><br>
+
+            <small>
+
+                ${new Date(n.createdAt)
+                .toLocaleString()}
+
+            </small>
+
+        </div>
+
+    `).join('');
+}
+
+loadNotifications();
+
+</script>
+
+</body>
+</html>

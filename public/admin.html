@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body{
+            font-family:Arial;
+            background:#f4f6f9;
+            padding:20px;
+        }
+
+        .stats{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+            gap:20px;
+        }
+
+        .card{
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            text-align:center;
+            box-shadow:0 5px 15px rgba(0,0,0,.1);
+        }
+    </style>
+</head>
+<body>
+
+<h2>⚙ Admin Dashboard</h2>
+
+<div class="stats">
+
+    <div class="card">
+        <h1 id="users">0</h1>
+        <p>Users</p>
+    </div>
+
+    <div class="card">
+        <h1 id="items">0</h1>
+        <p>Items</p>
+    </div>
+
+    <div class="card">
+        <h1 id="claims">0</h1>
+        <p>Claims</p>
+    </div>
+
+</div>
+
+<br>
+
+<canvas id="chart"></canvas>
+
+<script>
+async function loadStats(){
+
+    const res = await fetch('/admin/stats');
+    const data = await res.json();
+
+    users.innerText = data.users;
+    items.innerText = data.items;
+    claims.innerText = data.claims;
+
+    new Chart(document.getElementById('chart'), {
+
+        type:'bar',
+
+        data:{
+            labels:['Users','Items','Claims'],
+            datasets:[{
+                label:'Analytics',
+                data:[data.users,data.items,data.claims]
+            }]
+        }
+    });
+}
+
+loadStats();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profile</title>
+
+    <style>
+        body{
+            font-family:Arial;
+            background:#f4f6f9;
+        }
+
+        .card{
+            width:350px;
+            margin:80px auto;
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            box-shadow:0 5px 15px rgba(0,0,0,.1);
+            text-align:center;
+        }
+
+        h2{
+            color:#667eea;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+
+    <h2 id="name">Loading...</h2>
+
+    <p id="username"></p>
+
+    <p id="contact"></p>
+
+    <p id="department"></p>
+
+    <p id="role"></p>
+
+</div>
+
+<script>
+async function loadProfile(){
+
+    const res = await fetch('/auth/me');
+    const data = await res.json();
+
+    name.innerText = data.name;
+    username.innerText = '@' + data.username;
+    contact.innerText = '📞 ' + data.contact;
+    department.innerText = '🏫 ' + data.department;
+    role.innerText = 'Role: ' + data.role;
+}
+
+loadProfile();
+</script>
+
+</body>
+</html>
